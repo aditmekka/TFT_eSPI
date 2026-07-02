@@ -64,11 +64,8 @@ SPI2_HOST = 1,  ///< actually SPI1
 SPI3_HOST = 2,  ///< actually SPI2
 */
 
-#if ESP_ARDUINO_VERSION_MAJOR < 3
-#define SPI_PORT SPI2_HOST
-#else
+// ESP32 specific SPI port selection - only SPI2_HOST available on C3
 #define SPI_PORT 2
-#endif
 
 #ifdef RPI_DISPLAY_TYPE
   #define CMD_BITS (16-1)
@@ -268,60 +265,8 @@ SPI3_HOST = 2,  ///< actually SPI2
 // Make sure SPI default pins are assigned if not specified by user or set to -1
 ////////////////////////////////////////////////////////////////////////////////////////
 #if !defined (TFT_PARALLEL_8_BIT)
-
-  #ifdef USE_HSPI_PORT
-
-    #ifndef TFT_MISO
-      #define TFT_MISO -1
-    #endif
-
-    #ifndef TFT_MOSI
-      #define TFT_MOSI 13
-    #endif
-    #if (TFT_MOSI == -1)
-      #undef TFT_MOSI
-      #define TFT_MOSI 13
-    #endif
-
-    #ifndef TFT_SCLK
-      #define TFT_SCLK 14
-    #endif
-    #if (TFT_SCLK == -1)
-      #undef TFT_SCLK
-      #define TFT_SCLK 14
-    #endif
-
-  #else // VSPI port
-
-    #ifndef TFT_MISO
-      #define TFT_MISO -1
-    #endif
-
-    #ifndef TFT_MOSI
-      #define TFT_MOSI 23
-    #endif
-    #if (TFT_MOSI == -1)
-      #undef TFT_MOSI
-      #define TFT_MOSI 23
-    #endif
-
-    #ifndef TFT_SCLK
-      #define TFT_SCLK 18
-    #endif
-    #if (TFT_SCLK == -1)
-      #undef TFT_SCLK
-      #define TFT_SCLK 18
-    #endif
-
-    #if defined(CONFIG_IDF_TARGET_ESP32C3) || defined(CONFIG_IDF_TARGET_ESP32C6) 
-      #if (TFT_MISO == -1)
-        #undef TFT_MISO
-        #define TFT_MISO TFT_MOSI
-      #endif
-    #endif
-
-  #endif
-
+#define TFT_MOSI 6
+#define TFT_SCLK 4
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////////////
